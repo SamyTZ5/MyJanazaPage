@@ -37,9 +37,9 @@
     .preview{display:flex;justify-content:center;align-items:flex-start;padding:12px}
     .tv{position:relative;background:#0b0e12;border-radius:14px;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.35);max-width:100%}
     .tv:after{content:"";position:absolute;bottom:-26px;left:50%;width:140px;height:20px;background:#0b0e12;border-radius:10px 10px 4px 4px;transform:translateX(-50%)}
-    #posterScaleWrap{transform-origin:top left;display:block;/* la taille visible est fixée en JS */ }
+    #posterScaleWrap{transform-origin:top left;display:block;}
 
-    /* -------- Poster (taille logique fixe) -------- */
+    /* -------- Poster -------- */
     .stage{
       position:relative;overflow:visible;background:var(--bg);border:2px solid var(--star);border-radius:12px;
       display:flex;justify-content:center;align-items:center;z-index:0;width:var(--poster-w);height:var(--poster-h);
@@ -56,7 +56,8 @@
     /* Contenu centré */
     .content{
       position:relative;z-index:2;text-align:center;max-width:1000px;margin:0 auto;
-      padding:80px 220px 110px 220px;display:flex;flex-direction:column;justify-content:center;min-height:100%;
+      padding:72px 220px 96px 220px; /* légèrement resserré pour la nouvelle ligne */
+      display:flex;flex-direction:column;justify-content:center;min-height:100%;
     }
 
     /* Typo */
@@ -65,8 +66,9 @@
     .name{font-size:54px;color:var(--gold);font-weight:800;margin:16px 0}
     .duaa{font-size:22px;margin:8px 0 20px;color:#0f2b3b}
     .when{font-size:22px;margin:18px 0;color:#0c445c}
-    .mosquee{font-weight:800;font-size:24px;color:var(--gold);margin-top:10px}
+    .mosquee{font-weight:800;font-size:24px;color:#8b6c2a;margin-top:10px}
     .address{opacity:.95;font-weight:600;font-size:20px}
+    .burial{color:var(--gold);font-weight:600;font-size:18px;margin-top:6px;font-style:italic;}
     .footer-ar{font-family:Amiri,serif;font-size:26px;margin-top:22px}
 
     /* Contact */
@@ -75,33 +77,15 @@
     /* Logo (réglable) */
     .logo img{position:absolute;left:20px;top:var(--logo-top);width:80px;height:auto;object-fit:contain;opacity:.9}
 
-    /* affiche : ligne "Lieu d’inhumation" */
-    .burial{
-      opacity:.95;
-      font-weight:600;
-      font-size:20px;
-      margin-top:6px;
-    }
-    
-    /* remplace la ligne padding de .content pour gagner un peu en hauteur */
-    .content{
-      position:relative;z-index:2;text-align:center;max-width:1000px;margin:0 auto;
-      padding:72px 220px 96px 220px; /* AVANT: 80px 220px 110px 220px */
-      display:flex;flex-direction:column;justify-content:center;min-height:100%;
-    }
-
-
-
-    
-    /* -------- Mobile : ne PAS recouvrir l’aperçu -------- */
+    /* -------- Mobile -------- */
     @media (max-width:640px){
-      .panel{position:static; /* <-- plus de sticky */ }
+      .panel{position:static;}
       .form-grid{grid-template-columns:1fr}
       input,select{padding:16px 14px;font-size:17px;border:1.5px solid #cbd5e1;background:#fff}
       .btn{padding:12px 18px;font-size:16px}
       .preview{padding:8px}
       .tv{padding:8px;border-radius:10px}
-      .content{padding:60px 200px 96px 200px}
+      .content{padding:60px 200px 90px 200px}
     }
   </style>
 </head>
@@ -117,7 +101,11 @@
         <div><label>Prière</label><select id="priere"><option>Dohr</option><option>Asr</option><option>Maghrib</option><option>Isha</option><option>Fajr</option></select></div>
         <div class="full"><label>Mosquée</label><input id="mosquee" value="El-Mohsinine de Canteleu" /></div>
         <div class="full"><label>Adresse</label><input id="adresse" value="36 Anc. Rte de Duclair, 76380 Canteleu" /></div>
-        <div class="full"><label>Lieu d’inhumation</label><input id="burial" placeholder="au Maroc, en Algérie, au Cimetière du Mont-Gargan" /></div>
+        <!-- Nouveau champ -->
+        <div class="full">
+          <label>Lieu d’inhumation</label>
+          <input id="burial" placeholder="au Maroc, en Algérie, au Cimetière du Mont-Gargan" />
+        </div>
       </div>
       <div class="row">
         <button class="btn" id="resetAll">Réinitialiser</button>
@@ -142,8 +130,9 @@
               <div class="when" id="whenA4"></div>
               <div class="mosquee" id="mosqueeA4"></div>
               <div class="address" id="adresseA4"></div>
-              <div class="footer-ar">بارك الله فيكم</div>
+              <!-- Nouvelle ligne sur l'affiche -->
               <div class="burial" id="burialA4"></div>
+              <div class="footer-ar">بارك الله فيكم</div>
             </div>
             <div class="contact" id="contactA4">mosquee.amcc@gmail.com | 02 35 07 26 22</div>
           </div>
@@ -174,8 +163,9 @@
       const dateVal = $("date").value;
       const mosquee = $("mosquee").value.trim();
       const adresse = $("adresse").value.trim();
+      const burial  = ($("burial").value || "").trim(); // NEW
 
-      const {weekday, date} = formatDateFRDateOnly(val = dateVal);
+      const {weekday, date} = formatDateFRDateOnly(dateVal); // ← FIX
       let priereAff = priere; if(weekday === 'VENDREDI' && priere === 'Dohr') priereAff = 'Jumu‘a';
 
       $("fullnameA4").textContent = `${sexe==='F'?'Madame':'Monsieur'} ${prenom} ${nom}`;
@@ -183,10 +173,8 @@
       $("whenA4").innerHTML = `La prière aura lieu le <strong>${weekday} ${date}</strong> après Salat <strong>${priereAff}</strong> à la Mosquée :`;
       $("mosqueeA4").textContent = mosquee;
       $("adresseA4").textContent = adresse;
+      $("burialA4").textContent  = burial ? `Lieu d’inhumation : ${burial}` : "";
     }
-
-    // NEW: afficher la ligne seulement si remplie
-    $("#burialA4").textContent = burial ? `Lieu d’inhumation : ${burial}` : "";
 
     // Échelle responsive qui réserve la hauteur affichée
     function fitPreview(){
@@ -194,8 +182,7 @@
       const available = Math.min(wrap.clientWidth - 20, window.innerWidth - 20);
       const s = Math.min(available / POSTER_W, 1);
       scaleWrap.style.transform = `scale(${s})`;
-      // Réserver exactement l’espace visible
-      scaleWrap.style.width = (POSTER_W * s) + 'px';
+      scaleWrap.style.width  = (POSTER_W * s) + 'px';
       scaleWrap.style.height = (POSTER_H * s) + 'px';
     }
 
@@ -209,33 +196,29 @@
       $("priere").value = "Dohr";
       $("mosquee").value = "";
       $("adresse").value = "";
-      $("#burial").value = "";            // ← NEW
+      $("burial").value = ""; // NEW
       build(); fitPreview();
     });
 
-    // S'assurer que tout est chargé (images + fonts)
+    // Charger images + fonts
     async function assetsReady(){
       const imgs = Array.from(document.querySelectorAll('#posterA4 img'));
       await Promise.all(imgs.map(img => img.complete ? Promise.resolve() :
         new Promise(res => { img.onload = res; img.onerror = res; })));
-      if (document.fonts && document.fonts.ready) { await document.fonts.ready; }
+      if (document.fonts?.ready) { await document.fonts.ready; }
     }
 
     // Export identique PC / Mobile
     $("exportPng").addEventListener('click', async () => {
       build();
       await assetsReady();
-      // iOS bugfix : pas de transform parent pendant la capture
       const wrap = $("posterScaleWrap");
       const prevTransform = wrap.style.transform;
-      wrap.style.transform = "none";
-      // Reflow
-      void $("posterA4").offsetHeight;
-
+      wrap.style.transform = "none";            // évite bug iOS
+      void $("posterA4").offsetHeight;          // reflow
       const canvas = await html2canvas($("posterA4"), {
         scale: 2, backgroundColor: null, useCORS: true
       });
-
       wrap.style.transform = prevTransform;
 
       const link = document.createElement('a');
@@ -244,10 +227,12 @@
       link.click();
     });
 
-    // Live build + fit
-  ['nom','prenom','sexe','date','priere','mosquee','adresse','burial'].forEach(id=>{
-      $(id).addEventListener('input', build);
-      $(id).addEventListener('change', build);
+    // Live build + fit (← FIX : IDs sans #)
+    ['nom','prenom','sexe','date','priere','mosquee','adresse','burial'].forEach(id=>{
+      const el = $(id);
+      if (!el) return;
+      el.addEventListener('input', build);
+      el.addEventListener('change', build);
     });
 
     (function init(){
@@ -260,8 +245,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
