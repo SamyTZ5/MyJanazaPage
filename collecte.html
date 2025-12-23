@@ -42,6 +42,11 @@
     .btn-down { background: var(--accent); }
     .btn:hover { opacity: 0.9; }
 
+    /* --- BOUTON RETOUR (NOUVEAU) --- */
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 600; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; fill: currentColor; }
+
     /* --- PREVIEW --- */
     .preview-container { display: flex; justify-content: center; align-items: flex-start; background: #e2e8f0; border-radius: 12px; padding: 20px; min-height: 500px; overflow: hidden; }
     .tv-frame { position: relative; background: #111; padding: 16px; border-radius: 16px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); display: block; margin: 0 auto; }
@@ -96,6 +101,11 @@
 
 <div class="app">
   <div class="panel">
+    
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
+      Menu Principal
+    </a>
     
     <div>
       <h2>Mosquée</h2>
