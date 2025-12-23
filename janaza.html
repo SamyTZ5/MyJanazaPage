@@ -38,6 +38,11 @@
     .btn-down { background: var(--accent); }
     .btn:hover { opacity: 0.9; }
 
+    /* --- BOUTON RETOUR (NOUVEAU) --- */
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 600; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; fill: currentColor; }
+
     /* --- PREVIEW TV (Cadre noir) --- */
     .preview-container { 
       display: flex; justify-content: center; align-items: flex-start; /* flex-start pour éviter le centrage vertical forcé qui coupe sur mobile */
@@ -103,6 +108,12 @@
 
 <div class="app">
   <div class="panel">
+    
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
+      Menu Principal
+    </a>
+
     <div>
       <h2>Défunt(e)</h2>
       <div class="toggle-wrap"><input type="checkbox" id="enfant"><label for="enfant">C'est un enfant (mineur)</label></div>
