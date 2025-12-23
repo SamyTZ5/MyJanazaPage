@@ -28,19 +28,19 @@
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .full { grid-column: 1 / -1; }
     label { display: block; font-size: 11px; font-weight: 700; color: #555; margin-bottom: 4px; }
-    
-    input, select, textarea { 
-      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; 
-      font-size: 14px; background: #f9f9f9; outline: none; font-family: inherit;
-    }
+    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #f9f9f9; outline: none; font-family: inherit; }
     textarea { resize: vertical; min-height: 120px; }
     input:focus, select:focus, textarea:focus { border-color: var(--accent); background: #fff; }
-
     .btns { display: flex; gap: 10px; margin-top: 10px; }
     .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; color: white; transition: 0.2s; font-size: 14px; }
     .btn-reset { background: #94a3b8; }
     .btn-down { background: var(--accent); }
     .btn:hover { opacity: 0.9; }
+
+    /* --- BOUTON RETOUR --- */
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 600; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; fill: currentColor; }
 
     /* --- PREVIEW --- */
     .preview-container { display: flex; justify-content: center; align-items: flex-start; background: #e2e8f0; border-radius: 12px; padding: 20px; min-height: 500px; overflow: hidden; }
@@ -48,55 +48,29 @@
     .tv-stand { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); width: 120px; height: 24px; background: #222; border-radius: 0 0 10px 10px; z-index: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     #scale-wrapper { width: var(--poster-w); height: var(--poster-h); background: white; transform-origin: top left; overflow: hidden; }
 
-    /* --- POSTER DESIGN --- */
+    /* --- POSTER --- */
     #poster { width: 100%; height: 100%; position: relative; background: var(--bg); display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 60px; }
-
     .rosette { position: absolute; top: 50%; transform: translateY(-50%); width: 260px; opacity: 1; mix-blend-mode: normal; pointer-events: none; z-index: 10; }
     .rosette.left { left: -100px; }
     .rosette.right { right: -100px; }
-
     .mosque-logo { position: absolute; top: 35px; left: 40px; width: 90px; height: 90px; object-fit: contain; z-index: 15; display: none; }
     .mosque-logo.active { display: block; } 
-
     .content { width: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 5; padding: 0 40px; }
 
-    /* --- MODIFICATIONS VISIBLES --- */
-    
-    .poster-main-title {
-        font-size: 50px; 
-        font-weight: 900; 
-        color: var(--bright-gold);
-        text-transform: uppercase; 
-        margin-bottom: 40px; 
-        line-height: 1.1;
-        max-width: 80%;
-        text-shadow: 0 2px 0 rgba(0,0,0,0.05);
-        letter-spacing: 1px;
-    }
-
-    .poster-message-body {
-        /* CHANGEMENT DE POLICE : On utilise 'Inter' au lieu de 'Amiri' pour plus de modernité */
-        font-family: 'Inter', sans-serif; 
-        font-weight: 600;
-        font-size: 32px; 
-        color: var(--ink); 
-        line-height: 1.5;
-        
-        /* TEXTE PLUS ETROIT : 60% pour éviter les logos */
-        max-width: 60% !important; 
-        
-        white-space: pre-wrap; /* Conserve les retours à la ligne */
-    }
-
+    .poster-main-title { font-size: 50px; font-weight: 900; color: var(--bright-gold); text-transform: uppercase; margin-bottom: 40px; line-height: 1.1; max-width: 80%; text-shadow: 0 2px 0 rgba(0,0,0,0.05); letter-spacing: 1px; }
+    .poster-message-body { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 32px; color: var(--ink); line-height: 1.5; max-width: 60% !important; white-space: pre-wrap; }
     .footer { position: absolute; bottom: 15px; width: 100%; text-align: center; font-size: 14px; color: #1e2a3b; font-weight: 600; z-index: 20; opacity: 0.8; letter-spacing: 0.5px; }
-
   </style>
 </head>
 <body>
 
 <div class="app">
   <div class="panel">
-    
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
+      Menu Principal
+    </a>
+
     <div>
       <h2>Mosquée</h2>
       <div class="full">
@@ -112,14 +86,8 @@
     
     <div>
       <h2>Message</h2>
-      <div class="full" style="margin-bottom:10px;">
-          <label>Titre de l'annonce</label>
-          <input id="titreInput" placeholder="ex: INFO TRAVAUX, AÏD MUBARAK, CONFÉRENCE...">
-      </div>
-      <div class="full">
-          <label>Texte de l'annonce</label>
-          <textarea id="messageInput" placeholder="Écrivez votre message ici..."></textarea>
-      </div>
+      <div class="full" style="margin-bottom:10px;"><label>Titre de l'annonce</label><input id="titreInput" placeholder="ex: INFO TRAVAUX, AÏD MUBARAK, CONFÉRENCE..."></div>
+      <div class="full"><label>Texte de l'annonce</label><textarea id="messageInput" placeholder="Écrivez votre message ici..."></textarea></div>
     </div>
     
     <div>
@@ -140,7 +108,6 @@
         <div id="poster">
           <img class="rosette left" src="https://i.ibb.co/CK0STnWk/image.png" crossorigin="anonymous">
           <img class="rosette right" src="https://i.ibb.co/zhNcJY5m/image.png" crossorigin="anonymous">
-          
           <img id="logo-canteleu" class="mosque-logo" src="https://i.ibb.co/99F9yKyK/image.png" crossorigin="anonymous">
           <img id="logo-rouen" class="mosque-logo" src="https://i.ibb.co/C5JQqnW1/image-removebg-preview-1.png" crossorigin="anonymous">
           <img id="logo-stetienne" class="mosque-logo" src="https://i.ibb.co/zhc2rYMP/image-removebg-preview-2.png" crossorigin="anonymous">
@@ -148,12 +115,8 @@
 
           <div class="content">
             <h1 id="posterTitle" class="poster-main-title">TITRE DE L'ANNONCE</h1>
-            
-            <div id="posterBody" class="poster-message-body">
-Veuillez saisir votre message dans le formulaire à gauche.
-            </div>
+            <div id="posterBody" class="poster-message-body">Veuillez saisir votre message dans le formulaire à gauche.</div>
           </div>
-          
           <div id="contactDisplay" class="footer">00 00 00 00 00 | email@example.com</div>
         </div>
       </div>
@@ -169,91 +132,39 @@ Veuillez saisir votre message dans le formulaire à gauche.
     stetienne: { nom: "Mosquée Yahya\n(Saint-Etienne-du-Rouvray)", adresse: "29 Rue Marius Vallée, 76800 Saint-Étienne-du-Rouvray", tel: "+33 2 35 64 62 23", email: "acms76800@gmail.com" },
     autre: { nom: "Mosquée...", adresse: "", tel: "", email: "" }
   };
-
   const POSTER_W = 1120; const POSTER_H = 720;
   const $ = id => document.getElementById(id);
-
   function updateFromMosqueSelect() {
-    const key = $("mosqueeSelect").value;
-    const info = DATA[key];
+    const key = $("mosqueeSelect").value; const info = DATA[key];
     if(info) { $("tel").value = info.tel; $("email").value = info.email; }
-
     document.querySelectorAll('.mosque-logo').forEach(img => img.classList.remove('active'));
     if(key === 'canteleu') $("logo-canteleu").classList.add('active');
     else if(key === 'rouen') $("logo-rouen").classList.add('active');
     else if(key === 'stetienne') $("logo-stetienne").classList.add('active');
     render();
   }
-
   function render() {
-    // Récupération Titre et Message
     const titre = $("titreInput").value.trim() || "TITRE DE L'ANNONCE";
     const message = $("messageInput").value.trim() || "Votre message s'affichera ici...";
-
-    $("posterTitle").textContent = titre;
-    $("posterBody").textContent = message;
-
+    $("posterTitle").textContent = titre; $("posterBody").textContent = message;
     $("contactDisplay").textContent = `${$("tel").value} | ${$("email").value}`;
   }
-
   function fit() {
-    const container = $("previewContainer");
-    const frame = $("tvFrame");
-    const wrapper = $("scale-wrapper");
-    const availableW = container.clientWidth - 40; 
-    let scale = availableW / POSTER_W;
-    if(scale > 1) scale = 1;
-    wrapper.style.transform = `scale(${scale})`;
-    const finalW = POSTER_W * scale; const finalH = POSTER_H * scale;
-    frame.style.width = (finalW + 32) + "px"; frame.style.height = (finalH + 32) + "px";
+    const container = $("previewContainer"); const frame = $("tvFrame"); const wrapper = $("scale-wrapper");
+    const availableW = container.clientWidth - 40; let scale = availableW / POSTER_W; if(scale > 1) scale = 1;
+    wrapper.style.transform = `scale(${scale})`; const finalW = POSTER_W * scale; const finalH = POSTER_H * scale; frame.style.width = (finalW + 32) + "px"; frame.style.height = (finalH + 32) + "px";
   }
-
-  window.addEventListener('load', () => {
-    $("mosqueeSelect").value = "canteleu";
-    updateFromMosqueSelect();
-    setTimeout(fit, 100);
-  });
+  window.addEventListener('load', () => { $("mosqueeSelect").value = "canteleu"; updateFromMosqueSelect(); setTimeout(fit, 100); });
   window.addEventListener('resize', fit);
-
-  document.querySelectorAll('input, select, textarea').forEach(el => {
-    if(el.id === 'mosqueeSelect') el.addEventListener('change', updateFromMosqueSelect);
-    else el.addEventListener('input', render);
-  });
-
+  document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id === 'mosqueeSelect') el.addEventListener('change', updateFromMosqueSelect); else el.addEventListener('input', render); });
   $("resetBtn").onclick = () => location.reload();
-
   $("downloadBtn").onclick = async () => {
-    const btn = $("downloadBtn");
-    const originalText = btn.textContent;
-    btn.textContent = "Génération...";
-    
-    const imgs = Array.from(document.querySelectorAll("#poster img"));
-    await Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; })));
-    
-    const wrapper = $("scale-wrapper");
-    const frame = $("tvFrame");
-    const oldTransform = wrapper.style.transform;
-    const oldFrameW = frame.style.width; const oldFrameH = frame.style.height;
-
-    wrapper.style.transform = "scale(1)";
-    frame.style.width = (POSTER_W + 32) + "px"; frame.style.height = (POSTER_H + 32) + "px";
-    
+    const btn = $("downloadBtn"); const originalText = btn.textContent; btn.textContent = "Génération...";
+    const imgs = Array.from(document.querySelectorAll("#poster img")); await Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; })));
+    const wrapper = $("scale-wrapper"); const frame = $("tvFrame"); const oldTransform = wrapper.style.transform; const oldFrameW = frame.style.width; const oldFrameH = frame.style.height;
+    wrapper.style.transform = "scale(1)"; frame.style.width = (POSTER_W + 32) + "px"; frame.style.height = (POSTER_H + 32) + "px";
     await new Promise(r => setTimeout(r, 200));
-
-    try {
-      const canvas = await html2canvas($("poster"), { scale: 2, useCORS: true, backgroundColor: null });
-      const a = document.createElement('a');
-      let safeName = $("titreInput").value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() || "annonce";
-      a.download = `Affiche_Annonce_${safeName}.png`;
-      a.href = canvas.toDataURL("image/png");
-      a.click();
-    } catch(err) {
-      alert("Erreur export : " + err);
-    } finally {
-      wrapper.style.transform = oldTransform;
-      frame.style.width = oldFrameW; frame.style.height = oldFrameH;
-      btn.textContent = originalText;
-    }
+    try { const canvas = await html2canvas($("poster"), { scale: 2, useCORS: true, backgroundColor: null }); const a = document.createElement('a'); let safeName = $("titreInput").value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() || "annonce"; a.download = `Affiche_Annonce_${safeName}.png`; a.href = canvas.toDataURL("image/png"); a.click(); } catch(err) { alert("Erreur export : " + err); } finally { wrapper.style.transform = oldTransform; frame.style.width = oldFrameW; frame.style.height = oldFrameH; btn.textContent = originalText; }
   };
 </script>
 </body>
